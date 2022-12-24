@@ -5,13 +5,14 @@ WORKDIR /app
 
 COPY go.mod .
 COPY go.sum .
+RUN ls -la
 
-RUN go mod vendor
+RUN go mod download
 RUN ls -la
 
 COPY . .
 
-RUN GOOS=linux go build -mod vendor -o library .
+RUN CGO_ENABLED=0 GOOS=linux go build -o library .
 RUN ls -la
 
 # alpine:3.17.0

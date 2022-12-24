@@ -10,8 +10,11 @@ import (
 
 func registerRoutes(r *gin.Engine) {
 	bookRepo := bookRepository.NewBookRepository()
+	pickupRepo := bookRepository.NewBookScheduleRepository()
 
 	bookGettingService := bookService.NewBookGettingService(bookRepo)
+	bookPickupAddingService := bookService.NewBookScheduleAddingService(pickupRepo)
+	bookScheduleGettingService := bookService.NewBookScheduleGettingService(pickupRepo)
 
-	bookRest.Router(r, bookGettingService)
+	bookRest.Router(r, bookGettingService, bookPickupAddingService, bookScheduleGettingService)
 }

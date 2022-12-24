@@ -29,6 +29,7 @@ var _bookGettingService BookGettingService
 func NewBookGettingService(
 	bookRepository repository.BookRepository,
 ) BookGettingService {
+
 	if _bookGettingService == nil {
 		_bookGettingService = &bookGettingService{
 			bookRepository: bookRepository,
