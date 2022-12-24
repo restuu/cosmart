@@ -1,18 +1,17 @@
 package webserver
 
 import (
-    bookRest "library/pkg/book/http/rest"
-    bookService "library/pkg/book/service"
-    bookRepository "library/pkg/book/repository"
+	bookRest "library/pkg/book/http/rest"
+	bookRepository "library/pkg/book/repository"
+	bookService "library/pkg/book/service"
 
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
 func registerRoutes(r *gin.Engine) {
+	bookRepo := bookRepository.NewBookRepository()
 
-    bookRepo := bookRepository.NewBookRepository()
+	bookGettingService := bookService.NewBookGettingService(bookRepo)
 
-    bookGettingService := bookService.NewBookGettingService(bookRepo)
-
-    bookRest.Router(r, bookGettingService)
+	bookRest.Router(r, bookGettingService)
 }

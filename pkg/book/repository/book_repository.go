@@ -1,56 +1,51 @@
 package repository
 
 import (
-    "encoding/json"
-    "fmt"
-    "library/pkg/book"
-    "net/http"
+	"encoding/json"
+	"fmt"
+	"library/pkg/book"
+	"net/http"
 )
 
 type BookRepository interface {
-    FindByGenre(genre string) ([]book.Book, error)
+	FindByGenre(genre string) ([]book.Book, error)
 }
 
-type bookRepository struct {
+type bookRepository struct{}
 
-}
+const baseURL string = "http://openlibrary.org/subjects"
 
-const (
-    baseUrl string = "http://openlibrary.org/subjects"
-)
-
-type BookApiResponse struct {
-    Works []book.Book `json:"works"`
+type BookAPIResponse struct {
+	Works []book.Book `json:"works"`
 }
 
 func (br *bookRepository) FindByGenre(genre string) ([]book.Book, error) {
-    fullUrl := baseUrl + fmt.Sprintf("/%s.json", genre)
-    res, err := http.Get(fullUrl)
+	fullURL := baseURL + fmt.Sprintf("/%s.json", genre)
+	res, err := http.Get(fullURL)
 
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 
-    defer res.Body.Close()
+	defer res.Body.Close()
 
-    decoder := json.NewDecoder(res.Body)
+	decoder := json.NewDecoder(res.Body)
 
-    bookResponse := BookApiResponse{}
+	bookResponse := BookAPIResponse{}
 
-    if err = decoder.Decode(&bookResponse); err != nil {
-        return nil, err
-    }
+	if err = decoder.Decode(&bookResponse); err != nil {
+		return nil, err
+	}
 
-    return bookResponse.Works, nil
+	return bookResponse.Works, nil
 }
 
 var _bookRepository BookRepository
 
 func NewBookRepository() BookRepository {
-    if _bookRepository == nil {
-        _bookRepository = &bookRepository{}
-    }
+	if _bookRepository == nil {
+		_bookRepository = &bookRepository{}
+	}
 
-    return _bookRepository
+	return _bookRepository
 }
-

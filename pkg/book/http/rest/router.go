@@ -14,12 +14,12 @@ type bookHandler struct {
 
 // Router ...
 func Router(
-    r *gin.Engine,
-    bookGettingService service.BookGettingService,
-    ) {
+	r *gin.Engine,
+	bookGettingService service.BookGettingService,
+) {
 	handler := &bookHandler{
-        bookGettingService: bookGettingService,
-    }
+		bookGettingService: bookGettingService,
+	}
 
 	books := r.Group("/books")
 
@@ -27,7 +27,6 @@ func Router(
 }
 
 func (h *bookHandler) findBooks(c *gin.Context) {
-
 	bookFindRequest := model.BookFindRequest{}
 
 	if err := c.ShouldBindQuery(&bookFindRequest); err != nil {

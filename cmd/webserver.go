@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// webserverCmd represents the webserver command
+// webserverCmd represents the webserver command.
 var webserverCmd = &cobra.Command{
 	Use:   "webserver",
 	Short: "A brief description of your command",

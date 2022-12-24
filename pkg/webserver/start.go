@@ -11,7 +11,7 @@ import (
 func Start(ctx context.Context) {
 	r := gin.Default()
 
-    registerRoutes(r)
+	registerRoutes(r)
 
 	if err := r.Run(); err != nil {
 		log.Fatal(err)
